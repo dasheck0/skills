@@ -65,10 +65,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contribution workflow, skill
 
 ## Existing Skills
 
-| Skill | Directory | Description |
-|-------|-----------|-------------|
-| **skill-installer** | `skills/skill-installer/` | Installs and updates skills from this repo onto the local machine. Supports opencode and Claude Code, global and project-local, with automatic environment detection, auth check, and update detection. |
-| **skill-updater** | `skills/skill-updater/` | Pushes a locally installed skill back into this repo. Supports new skill contributions and updates to existing skills — with diff preview, automatic README update for new skills, and auth check. |
+| Skill                      | Directory                        | Description                                                                                                                                                                                                                                                                                                                                                                        |
+| -------------------------- | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **skill-installer**        | `skills/skill-installer/`        | Installs and updates skills from this repo onto the local machine. Supports opencode and Claude Code, global and project-local, with automatic environment detection, auth check, and update detection.                                                                                                                                                                            |
+| **skill-updater**          | `skills/skill-updater/`          | Pushes a locally installed skill back into this repo. Supports new skill contributions and updates to existing skills — with diff preview, automatic README update for new skills, and auth check.                                                                                                                                                                                 |
 | **architecture-interview** | `skills/architecture-interview/` | Conducts a step-by-step interview (numbered questions + lettered answer options + plain-language explanations for non-technical stakeholders) and derives a project-specific architecture guidelines document from it. Auto-detects the tech stack and skips irrelevant question domains. Asks in batches ("passes") with a recommendation on whether the next pass is worthwhile. |
 
 ---
@@ -85,4 +85,29 @@ skills/
 │       └── rules/           # Externalized rules (optional)
 ├── README.md
 └── CONTRIBUTING.md
+```
+
+## License
+```
+MIT License Copyright (c) 2026 Stefan Neidig
+
+Permission is hereby granted, free
+of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use, copy, modify, merge,
+publish, distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to the
+following conditions:
+
+The above copyright notice and this permission notice
+(including the next paragraph) shall be included in all copies or substantial
+portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF
+ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 ```

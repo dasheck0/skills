@@ -1,0 +1,25 @@
+{
+  "name": "skills",
+  "version": "1.0.0",
+  "description": "Personal collection of reusable skills for AI coding assistants (opencode, Claude Code, etc.) — curated and available across all my projects.",
+  "homepage": "https://github.com/dasheck0/skills#readme",
+  "bugs": {
+    "url": "https://github.com/dasheck0/skills/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dasheck0/skills.git"
+  },
+  "license": "MIT",
+  "author": "Stefan Neidig <s.neidig@nanogiants.de> (https://nanogiants.de/)",
+  "type": "commonjs",
+  "main": "commitlint.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
+    "lefthook": "^2.1.10"
+  }
+}
