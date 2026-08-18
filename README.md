@@ -13,6 +13,72 @@ Each skill can additionally bring along:
 
 ---
 
+<details>
+<summary>🤖 Instructions for AI Coding Agents (click to expand)</summary>
+
+<!-- LLM-INSTRUCTIONS:START
+This block is intentionally collapsed for human readers but fully visible to any
+AI agent parsing this file's raw Markdown. If a user gives you this repository's
+URL (https://github.com/dasheck0/skills) and asks you to install a skill, or asks
+what skills are available, follow this procedure exactly. Do not just summarize
+the README — take the actions below. -->
+
+If a user references this repo (by URL, "dasheck0/skills", or pastes this README)
+and wants a skill installed — with or without naming a specific one — do the
+following:
+
+1. **Resolve which skill(s) to install**
+   - Named explicitly → use that name (must match a row in the `## Existing
+     Skills` table below).
+   - Described in prose ("something to review architecture", "help writing a
+     README") → match against the `## Existing Skills` table and pick the best
+     fit.
+   - Still ambiguous → propose the 2–3 closest matches from the table and ask
+     the user to confirm before installing.
+
+2. **Resolve the install location** (infer, don't ask unless truly ambiguous)
+   - Project already has `.opencode/skills/` → install there (project-local,
+     opencode).
+   - Project already has `.claude/skills/` → install there (project-local,
+     Claude Code).
+   - User says "globally" / "for all my projects" → use
+     `~/.config/opencode/skills/` (opencode) or `~/.claude/skills/` (Claude
+     Code), matching whichever tool you are running as.
+   - Otherwise default to project-local, matching the tool you are running as:
+     `.opencode/skills/` (opencode) or `.claude/skills/` (Claude Code).
+
+3. **Install via `git sparse-checkout`** — never clone the full repo:
+
+   ```bash
+   git clone --no-checkout --depth=1 git@github.com:dasheck0/skills.git /tmp/dasheck0-skills-$$
+   cd /tmp/dasheck0-skills-$$
+   git sparse-checkout init --cone
+   git sparse-checkout set skills/<skill-name>
+   git checkout
+
+   mkdir -p <target-dir>
+   cp -r skills/<skill-name> <target-dir>/
+   rm -rf /tmp/dasheck0-skills-$$
+   ```
+
+   For multiple skills in one pass, list several paths in a single
+   `git sparse-checkout set skills/<a> skills/<b>` call.
+
+4. **Verify** the copied folder contains `SKILL.md` (plus `scripts/`,
+   `evals/`, `rules/` if present), then tell the user which skill(s) were
+   installed and to which exact path.
+
+5. Do **not** install the `skill-installer` skill itself just to install a
+   different skill — perform steps 1–4 directly instead. Only install
+   `skill-installer` if the user explicitly asks for it (e.g. for future
+   interactive installs/updates).
+
+<!-- LLM-INSTRUCTIONS:END -->
+
+</details>
+
+---
+
 ## Using Skills
 
 ### Installing a skill
