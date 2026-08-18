@@ -1,141 +1,88 @@
 # dasheck0 AI Skills Library
 
-Persönliche Sammlung wiederverwendbarer Skills für AI-Coding-Assistenten (opencode, Claude Code, etc.) – kuratiert und für alle meine Projekte zugänglich.
+Personal collection of reusable skills for AI coding assistants (opencode, Claude Code, etc.) — curated and available across all my projects.
 
-## Was ist ein Skill?
+## What is a Skill?
 
-Ein Skill ist eine Markdown-Datei (`SKILL.md`), die einem AI-Assistenten domänenspezifische Anweisungen, Workflows und Kontext gibt. Skills werden lokal in ein Projekt (oder global) eingespielt und vom Assistenten bei passenden Aufgaben automatisch geladen.
+A skill is a Markdown file (`SKILL.md`) that gives an AI assistant domain-specific instructions, workflows, and context. Skills are installed locally into a project (or globally) and are automatically loaded by the assistant when a matching task comes up.
 
-Jeder Skill kann zusätzlich mitbringen:
-- **`scripts/`** – ausführbare Hilfsskripte (Node.js, Bash, etc.)
-- **`evals/`** – Eval-Konfigurationen zum Testen des Skills
-- **`rules/`** – ausgelagerte Regelwerke, die `SKILL.md` referenziert
+Each skill can additionally bring along:
+- **`scripts/`** – executable helper scripts (Node.js, Bash, etc.)
+- **`evals/`** – eval configs to test the skill
+- **`rules/`** – externalized rule sets referenced by `SKILL.md`
 
 ---
 
-## Skills verwenden
+## Using Skills
 
-### Einen Skill installieren
+### Installing a skill
 
-Am einfachsten über den mitgelieferten `skill-installer` Skill (interviewt dich nach Environment + Scope und installiert automatisch).
+The easiest way is via the bundled `skill-installer` skill (interviews you on environment + scope and installs automatically).
 
-Manuell per `git sparse-checkout` (holt nur den gewünschten Ordner):
+Manually via `git sparse-checkout` (fetches only the requested folder):
 
 ```bash
-# Temporäres Verzeichnis anlegen
+# Create a temp directory
 git clone --no-checkout --depth=1 git@github.com:dasheck0/skills.git /tmp/dasheck0-skills
 cd /tmp/dasheck0-skills
 
-# Nur den gewünschten Skill auschecken
+# Checkout only the desired skill
 git sparse-checkout init --cone
 git sparse-checkout set skills/<skill-name>
 git checkout
 
-# Skill ins Projekt kopieren (oder global)
+# Copy the skill into your project (or globally)
 cp -r skills/<skill-name> ~/.config/opencode/skills/
-# oder projekt-lokal:
-cp -r skills/<skill-name> /pfad/zu/deinem/projekt/.opencode/skills/
+# or project-local:
+cp -r skills/<skill-name> /path/to/your/project/.opencode/skills/
 ```
 
-Alternativ einfach den Ordner `skills/<skill-name>/` aus diesem Repo manuell kopieren:
+Alternatively, just copy the `skills/<skill-name>/` folder from this repo manually:
 
 ```
 ~/.config/opencode/skills/
 └── <skill-name>/
     ├── SKILL.md
-    └── scripts/   # falls vorhanden
+    └── scripts/   # if present
 ```
 
-### Einen Skill aktivieren
+### Activating a skill
 
-Nach dem Kopieren muss der Skill in der jeweiligen AI-Tool-Konfiguration registriert sein. In der Regel reicht es, die `SKILL.md` im Skills-Verzeichnis (`~/.config/opencode/skills/` bzw. `~/.claude/skills/`) zu haben.
-
----
-
-## Skills beisteuern
-
-### Neuen Skill anlegen
-
-```
-skills/
-└── dein-skill-name/       # kebab-case
-    ├── SKILL.md            # Pflicht
-    ├── scripts/            # Optional: Hilfsskripte
-    ├── evals/              # Optional: Eval-Configs
-    ├── rules/              # Optional: ausgelagerte Regeln
-    └── LICENSE.txt         # Optional
-```
-
-**Naming:** Skill-Verzeichnisse immer in `kebab-case`, ohne Präfix.
-
-### SKILL.md Aufbau
-
-Jede `SKILL.md` beginnt mit einem YAML-Frontmatter-Block:
-
-```yaml
----
-name: dein-skill-name
-description: >
-  Text, der beschreibt wann dieser Skill ausgelöst werden soll. Dieser Text wird
-  vom AI-Assistenten genutzt, um den Skill automatisch zu erkennen und zu laden.
-  Trigger-Phrasen (deutsch + englisch) hier mit aufführen.
-license: MIT
-metadata:
-  author: dasheck0
-  version: '1.0.0'
----
-```
-
-Danach folgt der eigentliche Skill-Inhalt in Markdown: Anweisungen, Workflows, Beispiele, Referenzen.
-
-#### Frontmatter-Felder
-
-| Feld | Pflicht | Beschreibung |
-|------|---------|--------------|
-| `name` | ✅ | Eindeutiger Bezeichner, muss dem Verzeichnisnamen entsprechen |
-| `description` | ✅ | Wann soll der Skill ausgelöst werden? Je konkreter, desto besser |
-| `license` | – | Lizenz (z.B. `MIT`) |
-| `metadata.author` | – | Ersteller des Skills |
-| `metadata.version` | – | Semver-Version |
-
-### Was macht einen guten Skill aus?
-
-- **Klare `description`**: Der Assistent entscheidet anhand der Description, ob der Skill relevant ist. Konkrete Trigger-Phrasen (auch umgangssprachlich, deutsch + englisch) erhöhen die Trefferquote erheblich.
-- **Fokus**: Ein Skill löst genau ein Problem. Lieber zwei kleine als einen großen.
-- **Reproduzierbar**: Der Skill sollte deterministisch sein – gleicher Input, gleicher Output.
-- **Eigenständig**: Keine Abhängigkeiten zu anderen Skills voraussetzen, die nicht im Repo liegen.
-
-### Skill einreichen / aktualisieren
-
-Am einfachsten über den mitgelieferten `skill-updater` Skill (erkennt lokal installierte Skills, zeigt Diff zum Remote, pusht nach Bestätigung und aktualisiert diese README automatisch bei neuen Skills).
-
-Manuell:
-1. Feature-Branch anlegen: `git checkout -b skill/dein-skill-name`
-2. Skill unter `skills/dein-skill-name/` anlegen
-3. Lokal testen
-4. Pull Request gegen `master` öffnen
+After copying, the skill must be registered in the respective AI tool's configuration. In most cases it's enough to have the `SKILL.md` in the skills directory (`~/.config/opencode/skills/` or `~/.claude/skills/`).
 
 ---
 
-## Vorhandene Skills
+## Contributing Skills
 
-| Skill | Verzeichnis | Beschreibung |
-|-------|-------------|-------------|
-| **skill-installer** | `skills/skill-installer/` | Installiert und aktualisiert Skills aus diesem Repo auf die lokale Maschine. Unterstützt opencode und Claude Code, global und project-local, mit automatischer Umgebungserkennung, Auth-Check und Update-Detection. |
-| **skill-updater** | `skills/skill-updater/` | Pusht einen lokal installierten Skill zurück in dieses Repo. Unterstützt neue Skill-Beiträge und Updates bestehender Skills – mit Diff-Vorschau, automatischer README-Aktualisierung bei neuen Skills und Auth-Check. |
-| **architecture-interview** | `skills/architecture-interview/` | Interviewt Schritt für Schritt (mit nummerierten Fragen + lettered Antwortoptionen + plain-language Erklärung für Nicht-Techniker) und leitet daraus ein projektspezifisches Architektur-Guidelines-Dokument ab. Erkennt den Tech-Stack automatisch und überspringt irrelevante Fragen-Domänen. Fragt in Batches ("Passes") mit Empfehlung, ob der nächste Pass sinnvoll ist. |
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contribution workflow, skill structure conventions, and commit message rules.
+
+**Quick summary:**
+- Contribute via the bundled `skill-updater` skill (detects locally installed skills, shows a diff against remote, pushes on confirmation, and auto-updates this README for new skills).
+- Or manually: branch, add `skills/<skill-name>/`, test locally, open a PR against `master`.
+- **All commits must follow [Conventional Commits](https://www.conventionalcommits.org/)** (`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, etc.) — no exceptions, including for AI-generated commits.
 
 ---
 
-## Verzeichnisstruktur
+## Existing Skills
+
+| Skill | Directory | Description |
+|-------|-----------|-------------|
+| **skill-installer** | `skills/skill-installer/` | Installs and updates skills from this repo onto the local machine. Supports opencode and Claude Code, global and project-local, with automatic environment detection, auth check, and update detection. |
+| **skill-updater** | `skills/skill-updater/` | Pushes a locally installed skill back into this repo. Supports new skill contributions and updates to existing skills — with diff preview, automatic README update for new skills, and auth check. |
+| **architecture-interview** | `skills/architecture-interview/` | Conducts a step-by-step interview (numbered questions + lettered answer options + plain-language explanations for non-technical stakeholders) and derives a project-specific architecture guidelines document from it. Auto-detects the tech stack and skips irrelevant question domains. Asks in batches ("passes") with a recommendation on whether the next pass is worthwhile. |
+
+---
+
+## Repository Structure
 
 ```
 skills/
-├── skills/                  # Alle Skills
+├── skills/                  # All skills
 │   └── <skill-name>/
-│       ├── SKILL.md         # Skill-Definition (Pflicht)
-│       ├── scripts/         # Hilfsskripte (optional)
-│       ├── evals/           # Eval-Configs (optional)
-│       └── rules/           # Ausgelagerte Regeln (optional)
-└── README.md
+│       ├── SKILL.md         # Skill definition (required)
+│       ├── scripts/         # Helper scripts (optional)
+│       ├── evals/           # Eval configs (optional)
+│       └── rules/           # Externalized rules (optional)
+├── README.md
+└── CONTRIBUTING.md
 ```
