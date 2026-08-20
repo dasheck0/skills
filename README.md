@@ -47,22 +47,15 @@ following:
    - Otherwise default to project-local, matching the tool you are running as:
      `.opencode/skills/` (opencode) or `.claude/skills/` (Claude Code).
 
-3. **Install via `git sparse-checkout`** — never clone the full repo:
+3. **Install with the Vercel Skills CLI**:
 
    ```bash
-   git clone --no-checkout --depth=1 git@github.com:dasheck0/skills.git /tmp/dasheck0-skills-$$
-   cd /tmp/dasheck0-skills-$$
-   git sparse-checkout init --cone
-   git sparse-checkout set skills/<skill-name>
-   git checkout
-
-   mkdir -p <target-dir>
-   cp -r skills/<skill-name> <target-dir>/
-   rm -rf /tmp/dasheck0-skills-$$
+   npx skills@latest add dasheck0/skills --skill=<skill-name>
    ```
 
-   For multiple skills in one pass, list several paths in a single
-   `git sparse-checkout set skills/<a> skills/<b>` call.
+   Use `--agent <agent>` or `--global` to choose the destination. Use `--list`
+   first when no skill was named. The legacy sparse-checkout workflow below is
+   only a fallback when the CLI cannot be used.
 
 4. **Verify** the copied folder contains `SKILL.md` (plus `scripts/`,
    `evals/`, `rules/` if present), then tell the user which skill(s) were
@@ -80,6 +73,35 @@ following:
 ---
 
 ## Using Skills
+
+### Vercel Labs Skills CLI
+
+This repository follows the open [Agent Skills](https://agentskills.io/specification)
+layout and is directly discoverable by the [Vercel Labs Skills CLI](https://github.com/vercel-labs/skills).
+Every publishable skill lives at `skills/<skill-name>/SKILL.md`, where the directory
+name and frontmatter `name` are identical.
+
+Install one skill from GitHub:
+
+```bash
+npx skills@latest add dasheck0/skills --skill=architecture-interview
+```
+
+The CLI also supports listing before installing, all skills, explicit target agents,
+global installation, non-interactive runs, copies instead of symlinks, and temporary
+use without installation:
+
+```bash
+npx skills@latest add dasheck0/skills --list
+npx skills@latest add dasheck0/skills --all
+npx skills@latest add dasheck0/skills --skill=architecture-interview --agent=opencode
+npx skills@latest add dasheck0/skills --skill=architecture-interview --global --yes --copy
+npx skills@latest use dasheck0/skills@architecture-interview --agent=opencode
+```
+
+Once installed, use the normal CLI management commands for the target project or
+global scope: `npx skills@latest list`, `update`, `remove`, and `find`. The CLI is
+the installer and lifecycle manager; publishing remains a regular GitHub workflow.
 
 ### Installing a skill
 
@@ -142,7 +164,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contribution workflow, skill
 ## Repository Structure
 
 ```
-skills/
+.
 ├── skills/                  # All skills
 │   └── <skill-name>/
 │       ├── SKILL.md         # Skill definition (required)
@@ -150,7 +172,9 @@ skills/
 │       ├── evals/           # Eval configs (optional)
 │       └── rules/           # Externalized rules (optional)
 ├── README.md
-└── CONTRIBUTING.md
+├── CONTRIBUTING.md
+├── scripts/validate-skills.mjs
+└── .github/workflows/validate-skills.yml
 ```
 
 ## License

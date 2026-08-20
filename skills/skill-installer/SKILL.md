@@ -25,6 +25,17 @@ Installs and updates skills from the private `dasheck0/skills` repository.
 - **Skill path prefix in repo**: `skills/<skill-name>/`
 - **README URL**: `https://raw.githubusercontent.com/dasheck0/skills/master/README.md`
 
+**Preferred install command:**
+
+```bash
+npx skills@latest add dasheck0/skills --skill=<skill-name>
+```
+
+When the Vercel Skills CLI is available, prefer it because it discovers target
+agents and supports `--agent`, `--global`, `--copy`, and `--yes`. Continue with
+the repository-specific workflow below when the user needs its interactive
+update comparison or the CLI is unavailable.
+
 ---
 
 ## Phase 1: Detect Environment
@@ -93,7 +104,7 @@ curl -s https://raw.githubusercontent.com/dasheck0/skills/master/README.md
 
 ### Parse the Skill Table
 
-Find the `## Vorhandene Skills` section in the README. Parse the Markdown table to extract:
+Find the `## Existing Skills` section in the README. Parse the Markdown table to extract:
 - Skill name (e.g. `architecture-interview`)
 - Directory (e.g. `skills/architecture-interview/`)
 - Description (one-liner)

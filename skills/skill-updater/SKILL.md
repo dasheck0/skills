@@ -294,7 +294,7 @@ Always warn explicitly before force-pushing: "⚠️ This will overwrite the rem
 
 ## Phase 5: Update README (new skills only)
 
-After a successful push, check if any of the pushed skills were **new** (i.e., did not exist in the remote repo before — outcome A from Phase 3). If yes, automatically update the `README.md` in the repo to add the new skill(s) to the `## Vorhandene Skills` table.
+After a successful push, check if any of the pushed skills were **new** (i.e., did not exist in the remote repo before — outcome A from Phase 3). If yes, automatically update the `README.md` in the repo to add the new skill(s) to the `## Existing Skills` table.
 
 ### Step 1: Fetch current README from remote
 
@@ -316,7 +316,7 @@ Use the description as the table entry text. If it is longer than ~200 character
 
 ### Step 3: Add new row to the skill table
 
-Find the `## Vorhandene Skills` section in the README and append a new row to the Markdown table:
+Find the `## Existing Skills` section in the README and append a new row to the Markdown table:
 
 ```
 | **<skill-name>** | `skills/<skill-name>/` | <description from SKILL.md frontmatter> |
@@ -341,7 +341,7 @@ gh api --method PUT repos/dasheck0/skills/contents/README.md \
 ### Step 5: Confirm to user
 
 ```
-📄  README.md updated: added <skill-name> to the "Vorhandene Skills" table.
+📄  README.md updated: added <skill-name> to the "Existing Skills" table.
     → https://github.com/dasheck0/skills/blob/master/README.md
 ```
 
@@ -388,5 +388,5 @@ Skipped (user declined):
 | Local skill path not readable | Show exact path and suggest checking permissions |
 | Commit fails (nothing staged) | "No changes detected between local and remote — nothing to commit." |
 | User cancels all skills | "No skills were pushed. Run this skill again whenever you're ready." |
-| README update fails (API error) | Warn the user: "Skill was pushed successfully, but README.md could not be updated automatically. Please add the skill manually to the ## Vorhandene Skills table." |
+| README update fails (API error) | Warn the user: "Skill was pushed successfully, but README.md could not be updated automatically. Please add the skill manually to the ## Existing Skills table." |
 | README SHA mismatch on update | Fetch the latest SHA and retry the PUT request once before showing an error. |

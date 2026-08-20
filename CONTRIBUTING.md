@@ -90,21 +90,44 @@ The actual skill content — instructions, workflows, examples, references — f
 | `metadata.author` | – | Skill author |
 | `metadata.version` | – | Semver version |
 
-### 3. What makes a good skill?
+### 3. Vercel Labs Skills CLI compatibility
+
+This repository is a source for `npx skills@latest`, so every publishable skill
+must comply with the Agent Skills discovery format:
+
+- Keep publishable skills in `skills/<skill-name>/SKILL.md`; do not put them only
+  under tool-specific folders such as `.opencode/skills/`.
+- The `name` must exactly match the directory name, be 1–64 characters, and use
+  lowercase letters, numbers, and single hyphens only.
+- `description` is required, non-empty, and must not exceed 1,024 characters.
+- Keep optional resources inside the skill directory (for example `scripts/`,
+  `references/`, `assets/`, `evals/`, or `rules/`) so the CLI can install them with
+  the skill.
+- Before opening a PR, run `npm test`. It validates every `skills/*/SKILL.md`.
+- To confirm CLI discovery without modifying an installation, run
+  `npm run verify:skills-cli` from the repository root.
+
+Users can then install an individual skill with:
+
+```bash
+npx skills@latest add dasheck0/skills --skill=your-skill-name
+```
+
+### 4. What makes a good skill?
 
 - **Clear `description`**: The assistant decides relevance based on this field. Concrete trigger phrases (including casual phrasing) significantly improve match rate.
 - **Focused**: One skill solves exactly one problem. Prefer two small skills over one large one.
 - **Reproducible**: The skill should be deterministic — same input, same output.
 - **Self-contained**: Don't assume dependencies on other skills that aren't in this repo.
 
-### 4. Submitting
+### 5. Submitting
 
 **Recommended:** use the bundled `skill-updater` skill — it detects locally installed skills, diffs against the remote repo, pushes on your confirmation, and automatically adds the new skill to the README table.
 
 **Manual:**
 1. Create a branch: `git checkout -b skill/your-skill-name`
 2. Add your skill under `skills/your-skill-name/`
-3. Test it locally
+3. Test it locally with `npm test` and `npm run verify:skills-cli`
 4. Commit using Conventional Commits (see above)
 5. Open a PR against `master`
 
@@ -120,6 +143,8 @@ Same process as adding a new skill, minus the README update (only new skills get
 
 - [ ] Skill directory is `kebab-case`, no prefix
 - [ ] `SKILL.md` has valid YAML frontmatter with `name` + `description`
+- [ ] `name` exactly matches its directory and meets Agent Skills naming rules
+- [ ] `npm test` passes
 - [ ] `description` includes concrete trigger phrases
 - [ ] Commit messages follow Conventional Commits
 - [ ] New skill is reflected in the `README.md` skill table (if not using `skill-updater`, which does this automatically)
