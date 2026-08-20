@@ -1,7 +1,7 @@
 {
   "name": "skills",
   "version": "1.0.0",
-  "description": "Personal collection of reusable skills for AI coding assistants (opencode, Claude Code, etc.) — curated and available across all my projects.",
+  "description": "Personal collection of reusable Agent Skills for AI coding assistants, compatible with the Vercel Labs Skills CLI.",
   "homepage": "https://github.com/dasheck0/skills#readme",
   "bugs": {
     "url": "https://github.com/dasheck0/skills/issues"
@@ -15,7 +15,9 @@
   "type": "commonjs",
   "main": "commitlint.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "validate": "node scripts/validate-skills.mjs",
+    "test": "npm run validate",
+    "verify:skills-cli": "npx --yes skills@latest add ./skills --list"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.2",
