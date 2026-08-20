@@ -36,32 +36,19 @@ following:
    - Still ambiguous → propose the 2–3 closest matches from the table and ask
      the user to confirm before installing.
 
-2. **Resolve the install location** (infer, don't ask unless truly ambiguous)
-   - Project already has `.opencode/skills/` → install there (project-local,
-     opencode).
-   - Project already has `.claude/skills/` → install there (project-local,
-     Claude Code).
-   - User says "globally" / "for all my projects" → use
-     `~/.config/opencode/skills/` (opencode) or `~/.claude/skills/` (Claude
-     Code), matching whichever tool you are running as.
-   - Otherwise default to project-local, matching the tool you are running as:
-     `.opencode/skills/` (opencode) or `.claude/skills/` (Claude Code).
-
-3. **Install with the Vercel Skills CLI**:
+2. **Install with the Vercel Skills CLI**:
 
    ```bash
    npx skills@latest add dasheck0/skills --skill=<skill-name>
    ```
 
    Use `--agent <agent>` or `--global` to choose the destination. Use `--list`
-   first when no skill was named. The legacy sparse-checkout workflow below is
-   only a fallback when the CLI cannot be used.
+   first when no skill was named.
 
-4. **Verify** the copied folder contains `SKILL.md` (plus `scripts/`,
-   `evals/`, `rules/` if present), then tell the user which skill(s) were
-   installed and to which exact path.
+3. **Verify** the CLI result and tell the user which skill(s) were installed
+   and to which target agent or scope.
 
-5. Do **not** install the `skill-installer` skill itself just to install a
+4. Do **not** install the `skill-installer` skill itself just to install a
    different skill — perform steps 1–4 directly instead. Only install
    `skill-installer` if the user explicitly asks for it (e.g. for future
    interactive installs/updates).
@@ -102,43 +89,6 @@ npx skills@latest use dasheck0/skills@architecture-interview --agent=opencode
 Once installed, use the normal CLI management commands for the target project or
 global scope: `npx skills@latest list`, `update`, `remove`, and `find`. The CLI is
 the installer and lifecycle manager; publishing remains a regular GitHub workflow.
-
-### Installing a skill
-
-The easiest way is via the bundled `skill-installer` skill (interviews you on environment + scope and installs automatically).
-
-Manually via `git sparse-checkout` (fetches only the requested folder):
-
-```bash
-# Create a temp directory
-git clone --no-checkout --depth=1 git@github.com:dasheck0/skills.git /tmp/dasheck0-skills
-cd /tmp/dasheck0-skills
-
-# Checkout only the desired skill
-git sparse-checkout init --cone
-git sparse-checkout set skills/<skill-name>
-git checkout
-
-# Copy the skill into your project (or globally)
-cp -r skills/<skill-name> ~/.config/opencode/skills/
-# or project-local:
-cp -r skills/<skill-name> /path/to/your/project/.opencode/skills/
-```
-
-Alternatively, just copy the `skills/<skill-name>/` folder from this repo manually:
-
-```
-~/.config/opencode/skills/
-└── <skill-name>/
-    ├── SKILL.md
-    └── scripts/   # if present
-```
-
-### Activating a skill
-
-After copying, the skill must be registered in the respective AI tool's configuration. In most cases it's enough to have the `SKILL.md` in the skills directory (`~/.config/opencode/skills/` or `~/.claude/skills/`).
-
----
 
 ## Contributing Skills
 
